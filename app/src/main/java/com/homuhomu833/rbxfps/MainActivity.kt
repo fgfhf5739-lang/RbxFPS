@@ -9,7 +9,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
 import rikka.shizuku.Shizuku
 
@@ -19,11 +18,10 @@ class MainActivity : AppCompatActivity() {
         const val FILE = "/data/local/tmp/ClientAppSettings.json"
         const val ROBLOX = "com.roblox.client"
         const val FLAG = "DFIntTaskSchedulerTargetFps"
-        val FPS_VALUES = listOf(60, 90, 120, 144, 165, 200, 240)
+        val FPS_VALUES = listOf(24, 30, 45, 60, 90, 120, 144, 165, 185, 200, 240)
         const val DEFAULT_FPS = 60
     }
 
-    private lateinit var modeToggle: MaterialButtonToggleGroup
     private lateinit var fpsDropdown: MaterialAutoCompleteTextView
     private lateinit var logView: TextView
 
@@ -39,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Keep content clear of the status/navigation bars.
         val root = findViewById<View>(R.id.root)
         ViewCompat.setOnApplyWindowInsetsListener(root) { v, insets ->
             val bars = insets.getInsets(
@@ -49,7 +46,6 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        modeToggle = findViewById(R.id.modeToggle)
         fpsDropdown = findViewById(R.id.fpsDropdown)
         logView = findViewById(R.id.logView)
 
@@ -88,12 +84,8 @@ class MainActivity : AppCompatActivity() {
     private fun selectedFps(): Int =
         fpsDropdown.text.toString().filter { it.isDigit() }.toIntOrNull() ?: DEFAULT_FPS
 
-    private fun currentMode(): Mode =
-        if (modeToggle.checkedButtonId == R.id.btnModeShizuku) Mode.SHIZUKU else Mode.ROOT
-
-    /** Returns true if the chosen backend is usable; otherwise shows why. */
-    private fun ready(mode: Mode): Boolean {
-        if (mode == Mode.ROOT) return true // libsu reports root failure with a clear message
+    /** Returns true if Shizuku is usable; otherwise shows why. */
+    private fun ready(): Boolean {
         if (!Shizuku.pingBinder()) {
             log("Shizuku is not running. Start it first in the Shizuku app.")
             return false
@@ -107,16 +99,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun exec(label: String, cmd: String) {
-        val mode = currentMode()
         log("$label...")
         Thread {
-            if (!ready(mode)) return@Thread
-            val r = Sh.run(mode, cmd)
+            if (!ready()) return@Thread
+            val r = Sh.run(cmd)
             log("$label: ${if (r.ok) "OK" else "FAILED"}\n${r.out}")
         }.start()
     }
 
-    /** Output shows only the latest result; each new message replaces the previous one. */
     private fun log(msg: String) {
         runOnUiThread { logView.text = msg }
     }

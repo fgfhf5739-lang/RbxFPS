@@ -25,11 +25,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Roblox FPS and resolution override via Shizuku"
+            android:text="Roblox FPS override via Shizuku"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurfaceVariant" />
 
-        <!-- Override -->
+        <!-- FPS override -->
         <com.google.android.material.card.MaterialCardView
             style="@style/Widget.Material3.CardView.Filled"
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Override"
+                    android:text="FPS override"
                     android:textAppearance="?attr/textAppearanceTitleMedium" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -61,81 +61,6 @@
                         android:layout_height="wrap_content"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Resolution mode"
-                    android:textAppearance="?attr/textAppearanceLabelLarge" />
-
-                <com.google.android.material.button.MaterialButtonToggleGroup
-                    android:id="@+id/modeToggle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    app:checkedButton="@id/btnModeRatio"
-                    app:selectionRequired="true"
-                    app:singleSelection="true">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnModeRatio"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Theo tỉ lệ" />
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btnModeP"
-                        style="?attr/materialButtonOutlinedStyle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Theo số p" />
-                </com.google.android.material.button.MaterialButtonToggleGroup>
-
-                <!-- Mode 1: ratio -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/ratioLayout"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:hint="Screen ratio">
-
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                        android:id="@+id/resDropdown"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="none" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Mode 2: custom p -->
-                <LinearLayout
-                    android:id="@+id/pLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/pLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="720p"
-                        android:textAppearance="?attr/textAppearanceTitleMedium" />
-
-                    <com.google.android.material.slider.Slider
-                        android:id="@+id/pSlider"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:stepSize="10"
-                        android:value="720"
-                        android:valueFrom="270"
-                        android:valueTo="1440" />
-                </LinearLayout>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnApply"

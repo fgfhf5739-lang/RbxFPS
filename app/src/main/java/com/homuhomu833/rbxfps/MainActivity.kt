@@ -18,10 +18,14 @@ class MainActivity : AppCompatActivity() {
         const val FILE = "/data/local/tmp/ClientAppSettings.json"
         const val ROBLOX = "com.roblox.client"
         const val FLAG = "DFIntTaskSchedulerTargetFps"
-        val FPS_VALUES = listOf(60, 90, 120)
+        const val RES_FLAG = "DFIntDebugDynamicRenderKiloPixels"
+        val RES_VALUES = listOf(108, 120, 135, 180, 216, 270, 360, 480, 540, 720, 810, 1080)
+        val FPS_VALUES = listOf(45, 60, 90, 120, 144, 165, 185)
+        const val DEFAULT_RES = 1080
         const val DEFAULT_FPS = 60
     }
 
+    private lateinit var resDropdown: MaterialAutoCompleteTextView
     private lateinit var fpsDropdown: MaterialAutoCompleteTextView
     private lateinit var logView: TextView
 
@@ -57,6 +61,16 @@ class MainActivity : AppCompatActivity() {
             )
         )
         fpsDropdown.setText("$DEFAULT_FPS FPS", false)
+        
+        resDropdown = findViewById(R.id.resDropdown)
+        resDropdown.setAdapter(
+            ArrayAdapter(
+                this,
+                android.R.layout.simple_dropdown_item_1line,
+                RES_VALUES.map { if (it == 0) "Default" else "${it}p" }
+            )
+        )
+        resDropdown.setText("Default", false)
 
         Shizuku.addRequestPermissionResultListener(permListener)
 
@@ -65,6 +79,19 @@ class MainActivity : AppCompatActivity() {
             val json = "{\"$FLAG\":$fps}"
             exec(
                 "Apply $fps FPS",
+                "rm -f $FILE; printf '%s' '$json' > $FILE && chmod 644 $FILE && am force-stop $ROBLOX && cat $FILE"
+            )
+        }
+        findViewById<View>(R.id.btnApply).setOnClickListener {
+            val fps = selectedFps()
+            val res = selectedRes()
+            val json = buildString {
+            append("{\"$FLAG\":$fps")
+            if (res > 0) append(",\"$RES_FLAG\":$res")
+            append("}")
+        }
+            exec(
+                "Apply $fps FPS" + if (res > 0) ", ${res}p" else "",
                 "rm -f $FILE; printf '%s' '$json' > $FILE && chmod 644 $FILE && am force-stop $ROBLOX && cat $FILE"
             )
         }

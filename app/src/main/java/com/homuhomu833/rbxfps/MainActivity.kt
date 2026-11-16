@@ -110,7 +110,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun selectedFps(): Int =
         fpsDropdown.text.toString().filter { it.isDigit() }.toIntOrNull() ?: DEFAULT_FPS
-
+    private fun selectedRes(): Int =
+        resDropdown.text.toString().filter { it.isDigit() }.toIntOrNull() ?: DEFAULT_RES
+    
     /** Returns true if Shizuku is usable; otherwise shows why. */
     private fun ready(): Boolean {
         if (!Shizuku.pingBinder()) {

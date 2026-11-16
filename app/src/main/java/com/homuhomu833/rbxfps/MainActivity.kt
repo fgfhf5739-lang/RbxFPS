@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         const val FILE = "/data/local/tmp/ClientAppSettings.json"
         const val ROBLOX = "com.roblox.client"
         const val FLAG = "DFIntTaskSchedulerTargetFps"
-        val FPS_VALUES = listOf(24, 30, 45, 60, 90, 120, 144, 165, 185, 200, 240)
+        val FPS_VALUES = listOf(10, 15, 24, 30, 45, 60, 90, 120, 144, 165, 185, 200, 240)
         const val DEFAULT_FPS = 60
     }
 
